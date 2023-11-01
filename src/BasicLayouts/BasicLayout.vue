@@ -17,7 +17,7 @@
 </template>
 
 <script setup>
-import GlobalHeader from "@/components/GlobalHeader.vue";
+import GlobalHeader from "@/components/GlobalHeader";
 </script>
 
 <style>

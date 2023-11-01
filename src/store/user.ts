@@ -1,5 +1,4 @@
 // initial state
-import ACCESS_ENUM from "@/access/accessEnum";
 import { StoreOptions } from "vuex";
 export default {
   namespaced: true,

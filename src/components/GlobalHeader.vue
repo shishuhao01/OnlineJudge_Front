@@ -1,34 +1,36 @@
 <template>
-  <div>
-    <a-row id="GlobalHeader" align="center" :wrap="false">
-      <a-col flex="auto">
-        <a-menu
-          mode="horizontal"
-          :selected-keys="selectKeys"
-          @menu-item-click="doMenuClick"
+  <a-row id="GlobalHeader" align="center" :wrap="false">
+    <a-col flex="auto">
+      <a-menu
+        mode="horizontal"
+        :selected-keys="selectKeys"
+        @menu-item-click="doMenuClick"
+      >
+        <a-menu-item
+          key="0"
+          :style="{ padding: 0, marginRight: '38px' }"
+          disabled
         >
-          <a-menu-item
-            key="0"
-            :style="{ padding: 0, marginRight: '38px' }"
-            disabled
-          >
-            <div class="title-p">
-              <img class="logo" src="../img/a.jpeg" />
-              <div class="title">OJ</div>
-            </div>
-          </a-menu-item>
-          <a-menu-item v-for="item in visiableMune" :key="item.path">
-            {{ item.name }}
-          </a-menu-item>
-        </a-menu>
-      </a-col>
-      <a-col flex="100px">
-        <div>
-          {{ userName ?? "未登录"}}
-        </div>
-      </a-col>
-    </a-row>
-  </div>
+          <div class="title-p">
+            <img class="logo" src="../img/a.jpeg" />
+            <div class="title">OJ</div>
+          </div>
+        </a-menu-item>
+        <a-menu-item
+          v-for="item in visiableMune"
+          :key="item.path"
+          id="title-font"
+        >
+          {{ item.name }}
+        </a-menu-item>
+      </a-menu>
+    </a-col>
+    <a-col flex="100px">
+      <div>
+        {{ userName ?? "未登录" }}
+      </div>
+    </a-col>
+  </a-row>
 </template>
 
 <script setup>
@@ -44,11 +46,12 @@ const store = useStore();
 
 const userName = computed(() => {
   return store.state.user.loginUser.userName;
-})
+});
 
 //默认的是主页
 const selectKeys = ref(["/titles"]);
 
+//过滤routes
 const visiableMune = computed(() => {
   const loginUser = store.state.user.loginUser;
   return routes.filter((item, index) => {
@@ -86,8 +89,6 @@ const doMenuClick = (key) => {
 //     role: ACCESS_ENUM.USER,
 //   });
 // }, 6000);
-
-//过滤routes
 </script>
 
 <style>

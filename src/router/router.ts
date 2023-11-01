@@ -14,11 +14,17 @@ export const routes = [
     path: "/",
     name: "首页",
     component: HomeView,
+    meta: {
+      access: ACCESS_ENUM.NOT_LOGIN,
+    },
   },
   {
     path: "/Titles",
     name: "题目信息",
     component: Titles,
+    meta: {
+      access: ACCESS_ENUM.NOT_LOGIN,
+    },
   },
 
  // 仅管理员可见

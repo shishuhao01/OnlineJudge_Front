@@ -1,9 +1,13 @@
 <template>
   <div id="userLayout">
     <a-layout style="min-height: 100vh">
-      <a-layout-header class="header">
+   
+      <a-layout-header class="header" v-if="current == null">
+       
         <img src="@/img/a.jpeg" class="logo" float:center />
+        
       </a-layout-header>
+
 
       <a-layout-content class="content">
         <div>
@@ -25,7 +29,6 @@ import UserRegister from "@/views/User/UserRegister.vue";
 import { useStore } from "vuex";
 import { computed } from "vue";
 import { useRoute, useRouter } from "vue-router";
-
 
 const route = useRoute();
 const router = useRouter();
