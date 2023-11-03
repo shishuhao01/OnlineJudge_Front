@@ -1,4 +1,4 @@
-import ManageView from "@/views/ManageView.vue";
+import ManageView from "@/views/question/ManageView.vue";
 import NoAuthView from "@/views/NoAuthView.vue";
 import ACCESS_ENUM from "../access/accessEnum";
 import HomeView from "@/views/HomeView.vue";

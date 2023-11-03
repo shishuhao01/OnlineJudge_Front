@@ -6,23 +6,19 @@
       showTotal: true,
       pageSize: searchParams.pageSize,
       current: searchParams.current,
-      defaultPageSize:[10,20,30,40],
+      defaultPageSize: [10, 20, 30, 40],
       total,
     }"
   >
+    <template #optional="{ record }">
+      <a-space>
+        <a-button type="primary" @click="updateQuestion(record)">修改</a-button>
 
-      <template #optional="{ record }">
-        <a-space>
-      <a-button type="primary" @click="updateQuestion(record)" 
-        >修改</a-button
-      >
-       
-  <a-popconfirm content="Are you sure you want to delete?" type="warning">
-      <a-button status="danger" @click="deleteQuestion(record)"
-        >删除</a-button
-      >
-  </a-popconfirm>
-
+        <a-popconfirm content="Are you sure you want to delete?" type="warning">
+          <a-button status="danger" @click="deleteQuestion(record)"
+            >删除</a-button
+          >
+        </a-popconfirm>
       </a-space>
     </template>
   </a-table>
@@ -33,10 +29,10 @@ import {
   QuestionControllerService,
   QuestionQueryRequest,
   QuestionAddRequest,
-  QusetionDeleteRequest
-} from "../../generated";
+  QusetionDeleteRequest,
+} from "../../../generated";
 import { onMounted, reactive, ref } from "vue";
-import { Page_Question_, Question } from "../../generated";
+import { Page_Question_, Question } from "../../../generated";
 import { da } from "element-plus/es/locale";
 import { StoreOptions } from "vuex";
 import { Message } from "@arco-design/web-vue";
@@ -66,27 +62,27 @@ const getAllQuestion = async () => {
   }
 };
 
-const deleteQuestion = async(question:QusetionDeleteRequest) => {
-     const res = await QuestionControllerService.deleteQuestionUsingPost({id:question.id});
-     if (res.code == 0) {
-      Message.success("删除成功");
-      getAllQuestion();
-     } else {
-      Message.error(res.message);
-     }
-}
+const deleteQuestion = async (question: QusetionDeleteRequest) => {
+  const res = await QuestionControllerService.deleteQuestionUsingPost({
+    id: question.id,
+  });
+  if (res.code == 0) {
+    Message.success("删除成功");
+    getAllQuestion();
+  } else {
+    Message.error(res.message);
+  }
+};
 
-const router = useRouter()
-const updateQuestion = (question:Question) => {
-    router.push({
-      path: "/question/update",
-      query: {
-        id: question.id,
-      }
-    })
-}
-
-
+const router = useRouter();
+const updateQuestion = (question: Question) => {
+  router.push({
+    path: "/question/update",
+    query: {
+      id: question.id,
+    },
+  });
+};
 
 const columns = [
   {

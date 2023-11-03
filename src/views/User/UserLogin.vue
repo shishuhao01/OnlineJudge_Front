@@ -1,5 +1,5 @@
 <template>
-  <h2 style="margin-bottom: 16px; text-align:center" >欢迎登录</h2>
+  <h2 style="margin-bottom: 16px; text-align: center">欢迎登录</h2>
   <div id="userLogin">
     <a-form
       :model="form"

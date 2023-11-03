@@ -1,11 +1,11 @@
 <template>
   <div id="addQuestionView">
-  <template v-if="updatePage == true">
-    <h1 style="text-align: center; color: red">修改题目</h1>
-  </template>
-  <template v-else>
-    <h1 style="text-align: center; color: red">增加题目</h1>
-  </template>
+    <template v-if="updatePage == true">
+      <h1 style="text-align: center; color: red">修改题目</h1>
+    </template>
+    <template v-else>
+      <h1 style="text-align: center; color: red">增加题目</h1>
+    </template>
     <a-form :model="form" label-align="left">
       <a-form-item field="title" label="标题">
         <a-input v-model="form.title" placeholder="请输入标题" />
@@ -113,11 +113,11 @@
 <script setup lang="ts">
 import { onMounted, reactive, ref } from "vue";
 import MdEditor from "@/components/MdEditor.vue";
-import { Notification,Message } from "@arco-design/web-vue";
+import { Notification, Message } from "@arco-design/web-vue";
 import {
   QuestionAddRequest,
   QuestionControllerService,
-  QusetionDeleteRequest
+  QusetionDeleteRequest,
 } from "../../../generated";
 import { useRoute } from "vue-router";
 
@@ -163,9 +163,9 @@ const loadData = async () => {
     Message.error("加载失败，" + res.message);
   }
 };
-onMounted(() =>{
+onMounted(() => {
   loadData();
-})
+});
 
 let form = ref({
   title: "",
@@ -182,7 +182,6 @@ let form = ref({
       input: "",
       output: "",
     },
-
   ],
   tags: [],
 } as QuestionAddRequest);
@@ -206,25 +205,26 @@ const handleDelete = (index: number) => {
 
 const doSubmit = async () => {
   if (updatePage) {
-    const  res = await QuestionControllerService.updateQuestionUsingPost(form.value)
+    const res = await QuestionControllerService.updateQuestionUsingPost(
+      form.value
+    );
     if (res.code == 0) {
       Message.success("修改成功");
       loadData();
+    } else {
+      Message.error(res.message);
+    }
   } else {
-     Message.error(res.message);
-  }
-
-  } else {
-  const res = await QuestionControllerService.addQuestionUsingPost(form.value);
-  if (res.code == 0) {
-    Message.success("添加成功");
-  } else {
-   Message.error(res.message);
-  }
+    const res = await QuestionControllerService.addQuestionUsingPost(
+      form.value
+    );
+    if (res.code == 0) {
+      Message.success("添加成功");
+    } else {
+      Message.error(res.message);
+    }
   }
 };
-
-
 
 const onContentChange = (v: string) => {
   form.value.content = v;
