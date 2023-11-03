@@ -1,4 +1,4 @@
-import AdminView from "../views/AdminView.vue";
+import ManageView from "@/views/ManageView.vue";
 import NoAuthView from "@/views/NoAuthView.vue";
 import ACCESS_ENUM from "../access/accessEnum";
 import HomeView from "@/views/HomeView.vue";
@@ -7,8 +7,31 @@ import SubmitMsg from "@/views/SubmitMsg.vue";
 import UserLayout from "@/BasicLayouts/UserLayout.vue";
 import UserLogin from "@/views/User/UserLogin.vue";
 import UserRegister from "@/views/User/UserRegister.vue";
+import AddQuestion from "@/views/question/AddQuestionView.vue"
 
 export const routes = [
+
+
+   // 仅管理员可见
+ {
+  path: "/question/add",
+  name: "创建题目",
+  component: AddQuestion,
+  meta: {
+    access: ACCESS_ENUM.ADMIN,
+  },
+}, 
+
+{
+  path: "/admin",
+  name: "题目管理",
+  component: ManageView,
+  meta: {
+    access: ACCESS_ENUM.ADMIN,
+  },
+},
+
+
   //不需要用户登录
   {
     path: "/",
@@ -27,15 +50,7 @@ export const routes = [
     },
   },
 
- // 仅管理员可见
- {
-  path: "/admin",
-  name: "管理员可见",
-  component: AdminView,
-  meta: {
-    access: ACCESS_ENUM.ADMIN,
-  },
-},
+
 
   //需要用户登录
   {
@@ -74,6 +89,13 @@ export const routes = [
       hideInMenu: true,
     },
   },
+  {
+    path: "/question/update",
+    component: AddQuestion,
+    meta: {
+      access: ACCESS_ENUM.ADMIN,
+    },
+  }, 
 ];
 
 export default routes;

@@ -1,10 +1,12 @@
 // initial state
+import ACCESS_ENUM from "@/access/accessEnum";
 import { StoreOptions } from "vuex";
 export default {
   namespaced: true,
   state: () => ({
     loginUser: {
       userName: "未登录",
+      role: ACCESS_ENUM.ADMIN,
     },
   }),
   actions: {

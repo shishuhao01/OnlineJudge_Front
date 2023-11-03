@@ -10,7 +10,7 @@
       </a-layout-content>
 
       <a-layout-footer class="footer">
-        <a href="http://www.baidu.com" target="_blank">百度一下你值得拥有</a>
+        <a href="http://www.baidu.com" target="_blank">百度一下</a>
       </a-layout-footer>
     </a-layout>
   </div>
@@ -26,7 +26,7 @@ import GlobalHeader from "@/components/GlobalHeader";
   box-shadow: #eee 1px 1px 5px;
 }
 #basicLayout .content {
-  background: linear-gradient(to right, #bbb, #fff);
+  background: linear-gradient(to right,  #eee,#7ac5cd);
   margin-bottom: 16px;
   padding: 20px;
 }

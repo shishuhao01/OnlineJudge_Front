@@ -3,9 +3,8 @@
     <a-layout style="min-height: 100vh">
    
       <a-layout-header class="header" v-if="current == null">
-       
-        <img src="@/img/a.jpeg" class="logo" float:center />
-        
+         <img src="@/img/a.jpeg" class="logo" style="position: relative;
+                    margin-left:  900px;" />
       </a-layout-header>
 
 
@@ -17,7 +16,7 @@
       </a-layout-content>
 
       <a-layout-footer class="footer">
-        <a href="http://www.baidu.com" target="_blank">百度一下你值得拥有</a>
+        <a href="http://www.baidu.com" target="_blank">百度一下</a>
       </a-layout-footer>
     </a-layout>
   </div>
@@ -63,6 +62,7 @@ const current = computed(() => {
   height: 150px;
 }
 #userLayout .header {
+  
   margin-bottom: 16px;
   box-shadow: #eee 1px 1px 5px;
 }

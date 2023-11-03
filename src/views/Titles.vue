@@ -1,13 +1,26 @@
 <template>
-    <div>这里面是题目,用户也可以访问，在线做题</div>
+  <div>
+    <MdEditor :value="MdValue" :handle-change="MdOnChange" />
+    <CodeEditor :value="codeValue" :handle-change="codeOnChange" />
+  </div>
 </template>
 
-<script>
-export default {
+<script setup lang="ts">
+import MdEditor from "@/components/MdEditor.vue";
+import CodeEditor from "@/components/CodeEditor.vue";
+import { ref } from "vue";
 
-}
+const codeValue = ref();
+
+const codeOnChange = (v: string) => {
+  codeValue.value = v;
+};
+
+const MdValue = ref();
+
+const MdOnChange = (v: string) => {
+  MdValue.value = v;
+};
 </script>
 
-<style>
-
-</style>
+<style></style>

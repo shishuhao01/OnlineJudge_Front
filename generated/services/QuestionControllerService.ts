@@ -35,7 +35,7 @@ questionAddRequest: QuestionAddRequest,
 ): CancelablePromise<BaseResponse_long_ | any> {
         return __request(OpenAPI, {
             method: 'POST',
-            url: '/api/question/add',
+            url: '/api/Question/add',
             body: questionAddRequest,
             errors: {
                 401: `Unauthorized`,
@@ -57,7 +57,7 @@ deleteRequest: DeleteRequest,
 ): CancelablePromise<BaseResponse_boolean_ | any> {
         return __request(OpenAPI, {
             method: 'POST',
-            url: '/api/question/delete',
+            url: '/api/Question/delete',
             body: deleteRequest,
             errors: {
                 401: `Unauthorized`,
@@ -66,6 +66,30 @@ deleteRequest: DeleteRequest,
             },
         });
     }
+
+     /**
+     * deleteQuestion
+     * @param deleteRequest deleteRequest
+     * @returns BaseResponse_boolean_ OK
+     * @returns any Created
+     * @throws ApiError
+     */
+     public static getUpdateQuestion(
+        id?: string,
+        ): CancelablePromise<BaseResponse_boolean_ | any> {
+                return __request(OpenAPI, {
+                    method: 'GET',
+                    url: '/api/Question/get',
+                    query: {
+                        'id': id,
+                    },
+                    errors: {
+                        401: `Unauthorized`,
+                        403: `Forbidden`,
+                        404: `Not Found`,
+                    },
+                });
+            }
 
     /**
      * editQuestion
@@ -79,7 +103,7 @@ questionEditRequest: QuestionEditRequest,
 ): CancelablePromise<BaseResponse_boolean_ | any> {
         return __request(OpenAPI, {
             method: 'POST',
-            url: '/api/question/edit',
+            url: '/api/Question/edit',
             body: questionEditRequest,
             errors: {
                 401: `Unauthorized`,
@@ -100,7 +124,7 @@ id?: number,
 ): CancelablePromise<BaseResponse_Question_> {
         return __request(OpenAPI, {
             method: 'GET',
-            url: '/api/question/get',
+            url: '/api/Question/get',
             query: {
                 'id': id,
             },
@@ -123,7 +147,7 @@ id?: number,
 ): CancelablePromise<BaseResponse_QuestionVO_> {
         return __request(OpenAPI, {
             method: 'GET',
-            url: '/api/question/get/vo',
+            url: '/api/Question/get/vo',
             query: {
                 'id': id,
             },
@@ -147,7 +171,7 @@ questionQueryRequest: QuestionQueryRequest,
 ): CancelablePromise<BaseResponse_Page_Question_ | any> {
         return __request(OpenAPI, {
             method: 'POST',
-            url: '/api/question/list/page',
+            url: '/api/Question/list/page',
             body: questionQueryRequest,
             errors: {
                 401: `Unauthorized`,
@@ -191,7 +215,7 @@ questionQueryRequest: QuestionQueryRequest,
 ): CancelablePromise<BaseResponse_Page_QuestionVO_ | any> {
         return __request(OpenAPI, {
             method: 'POST',
-            url: '/api/question/my/list/page/vo',
+            url: '/api/Question/my/list/page/vo',
             body: questionQueryRequest,
             errors: {
                 401: `Unauthorized`,
@@ -213,7 +237,7 @@ questionSubmitAddRequest: QuestionSubmitAddRequest,
 ): CancelablePromise<BaseResponse_long_ | any> {
         return __request(OpenAPI, {
             method: 'POST',
-            url: '/api/question/question_submit/do',
+            url: '/api/Question/question_submit/do',
             body: questionSubmitAddRequest,
             errors: {
                 401: `Unauthorized`,
@@ -235,7 +259,7 @@ questionSubmitQueryRequest: QuestionSubmitQueryRequest,
 ): CancelablePromise<BaseResponse_Page_QuestionSubmitVO_ | any> {
         return __request(OpenAPI, {
             method: 'POST',
-            url: '/api/question/question_submit/list/page',
+            url: '/api/Question/question_submit/list/page',
             body: questionSubmitQueryRequest,
             errors: {
                 401: `Unauthorized`,
@@ -257,7 +281,7 @@ questionUpdateRequest: QuestionUpdateRequest,
 ): CancelablePromise<BaseResponse_boolean_ | any> {
         return __request(OpenAPI, {
             method: 'POST',
-            url: '/api/question/update',
+            url: '/api/Question/update',
             body: questionUpdateRequest,
             errors: {
                 401: `Unauthorized`,
