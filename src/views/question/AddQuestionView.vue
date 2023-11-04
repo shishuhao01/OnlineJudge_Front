@@ -4,7 +4,7 @@
       <h1 style="text-align: center; color: red">修改题目</h1>
     </template>
     <template v-else>
-      <h1 style="text-align: center; color: red">增加题目</h1>
+      <h1 style="text-align: center; color: red">创建题目</h1>
     </template>
     <a-form :model="form" label-align="left">
       <a-form-item field="title" label="标题">
@@ -17,14 +17,14 @@
         <MdEditor
           :value="form.content"
           :handle-change="onContentChange"
-          style="min-width: 480px"
+          style="min-width:480px"
         />
       </a-form-item>
       <a-form-item field="answer" label="答案">
         <MdEditor
           :value="form.answer"
           :handle-change="onAnswerChange"
-          style="min-width: 480px; color: green"
+          style="min-width:480px"
         />
       </a-form-item>
       <a-form-item label="判题配置" :content-flex="false" :merge-props="false">
@@ -34,7 +34,7 @@
               v-model="form.judgeConfig.timeLimit"
               placeholder="请输入时间限制"
               mode="button"
-              min="0"
+              :min="0"
               size="large"
             />
           </a-form-item>
@@ -43,7 +43,7 @@
               v-model="form.judgeConfig.memoryLimit"
               placeholder="请输入内存限制"
               mode="button"
-              min="0"
+              :min="0"
               size="large"
             />
           </a-form-item>
@@ -52,7 +52,7 @@
               v-model="form.judgeConfig.stackLimit"
               placeholder="请输入堆栈限制"
               mode="button"
-              min="0"
+              :min="0"
               size="large"
             />
           </a-form-item>
@@ -117,7 +117,6 @@ import { Notification, Message } from "@arco-design/web-vue";
 import {
   QuestionAddRequest,
   QuestionControllerService,
-  QusetionDeleteRequest,
 } from "../../../generated";
 import { useRoute } from "vue-router";
 
@@ -145,6 +144,7 @@ const loadData = async () => {
     } else {
       form.value.judgeCase = JSON.parse(form.value.judgeCase as any);
     }
+
     if (!form.value.judgeConfig) {
       form.value.judgeConfig = {
         memoryLimit: 1000,
@@ -154,6 +154,7 @@ const loadData = async () => {
     } else {
       form.value.judgeConfig = JSON.parse(form.value.judgeConfig as any);
     }
+
     if (!form.value.tags) {
       form.value.tags = [];
     } else {
@@ -226,11 +227,11 @@ const doSubmit = async () => {
   }
 };
 
-const onContentChange = (v: string) => {
-  form.value.content = v;
+const onContentChange = (value: string) => {
+  form.value.content = value;
 };
-const onAnswerChange = (v: string) => {
-  form.value.answer = v;
+const onAnswerChange = (value: string) => {
+  form.value.answer = value;
 };
 </script>
 

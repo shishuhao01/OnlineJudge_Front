@@ -1,36 +1,34 @@
-import ManageView from "@/views/question/ManageView.vue";
+import ManageView from "@/views/question/ManageQuestionView.vue";
 import NoAuthView from "@/views/NoAuthView.vue";
 import ACCESS_ENUM from "../access/accessEnum";
 import HomeView from "@/views/HomeView.vue";
-import Titles from "@/views/Titles.vue";
+import Titles from "@/views/question/ListQuestionView.vue";
 import SubmitMsg from "@/views/SubmitMsg.vue";
 import UserLayout from "@/BasicLayouts/UserLayout.vue";
 import UserLogin from "@/views/User/UserLogin.vue";
 import UserRegister from "@/views/User/UserRegister.vue";
-import AddQuestion from "@/views/question/AddQuestionView.vue"
+import AddQuestion from "@/views/question/AddQuestionView.vue";
+import OnlineJudge from "@/views/question/OnlineQuestionView.vue";
 
 export const routes = [
-
-
-   // 仅管理员可见
- {
-  path: "/question/add",
-  name: "创建题目",
-  component: AddQuestion,
-  meta: {
-    access: ACCESS_ENUM.ADMIN,
+  // 仅管理员可见
+  {
+    path: "/question/add",
+    name: "创建题目",
+    component: AddQuestion,
+    meta: {
+      access: ACCESS_ENUM.ADMIN,
+    },
   },
-}, 
 
-{
-  path: "/admin",
-  name: "题目管理",
-  component: ManageView,
-  meta: {
-    access: ACCESS_ENUM.ADMIN,
+  {
+    path: "/admin",
+    name: "题目管理",
+    component: ManageView,
+    meta: {
+      access: ACCESS_ENUM.ADMIN,
+    },
   },
-},
-
 
   //不需要用户登录
   {
@@ -50,7 +48,16 @@ export const routes = [
     },
   },
 
-
+  {
+    path: "/question/view/:id",
+    name:"在线做题",
+    component: OnlineJudge,
+    props: true,
+    meta: {
+      access: ACCESS_ENUM.USER,
+      hideInMenu: true,
+    },
+  },
 
   //需要用户登录
   {
@@ -79,12 +86,12 @@ export const routes = [
     ],
   },
 
-
   // 无权限界面，只有没有权限的时候会跳转
   {
     path: "/NoAuthView",
     name: "无权限",
     component: NoAuthView,
+
     meta: {
       hideInMenu: true,
     },
@@ -95,7 +102,7 @@ export const routes = [
     meta: {
       access: ACCESS_ENUM.ADMIN,
     },
-  }, 
+  },
 ];
 
 export default routes;

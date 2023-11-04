@@ -8,7 +8,7 @@ import ACCESS_ENUM from "./accessEnum";
  * @param {*} needAccess  需要的权限
  */
 const checkAccess = (loginUser: any, needAccess: any) => {
-  const loginUserAccess = loginUser?.role;
+  const loginUserAccess = loginUser?.userRole;
   if (needAccess === ACCESS_ENUM.NOT_LOGIN) {
     return true;
   }

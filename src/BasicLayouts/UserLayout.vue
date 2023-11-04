@@ -1,12 +1,13 @@
 <template>
   <div id="userLayout">
     <a-layout style="min-height: 100vh">
-   
       <a-layout-header class="header" v-if="current == null">
-         <img src="@/img/a.jpeg" class="logo" style="position: relative;
-                    margin-left:  900px;" />
+        <img
+          src="@/img/a.jpeg"
+          class="logo"
+          style="position: relative; margin-left: 670px"
+        />
       </a-layout-header>
-
 
       <a-layout-content class="content">
         <div>
@@ -62,7 +63,6 @@ const current = computed(() => {
   height: 150px;
 }
 #userLayout .header {
-  
   margin-bottom: 16px;
   box-shadow: #eee 1px 1px 5px;
 }

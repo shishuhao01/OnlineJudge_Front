@@ -46,6 +46,7 @@ export type { PostVO } from "./models/PostVO";
 export type { Question } from "./models/Question";
 export type { QuestionAddRequest } from "./models/QuestionAddRequest";
 export type { QuestionEditRequest } from "./models/QuestionEditRequest";
+export type { QuestionDeleteRequest } from "./models/QuestionDeleteRequest";
 export type { QuestionQueryRequest } from "./models/QuestionQueryRequest";
 export type { QuestionSubmitAddRequest } from "./models/QuestionSubmitAddRequest";
 export type { QuestionSubmitQueryRequest } from "./models/QuestionSubmitQueryRequest";

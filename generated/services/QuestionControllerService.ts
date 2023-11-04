@@ -193,7 +193,7 @@ questionQueryRequest: QuestionQueryRequest,
 ): CancelablePromise<BaseResponse_Page_QuestionVO_ | any> {
         return __request(OpenAPI, {
             method: 'POST',
-            url: '/api/question/list/page/vo',
+            url: '/api/Question/list/page/vo',
             body: questionQueryRequest,
             errors: {
                 401: `Unauthorized`,
@@ -237,7 +237,7 @@ questionSubmitAddRequest: QuestionSubmitAddRequest,
 ): CancelablePromise<BaseResponse_long_ | any> {
         return __request(OpenAPI, {
             method: 'POST',
-            url: '/api/Question/question_submit/do',
+            url: '/api/question_submit/',
             body: questionSubmitAddRequest,
             errors: {
                 401: `Unauthorized`,

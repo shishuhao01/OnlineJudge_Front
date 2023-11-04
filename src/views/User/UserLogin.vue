@@ -52,10 +52,7 @@ const handleSubmit = async () => {
     Notification.info({
       content: "登录成功",
     });
-    store.dispatch("user/getLoginUser", {
-      userName: res.data.userName,
-      role: res.data.userRole,
-    });
+    await store.dispatch("user/getLoginUser");
     router.push({
       path: "/",
       replace: true,

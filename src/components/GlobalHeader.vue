@@ -26,7 +26,10 @@
       </a-menu>
     </a-col>
     <a-col flex="100px">
-      <div>
+      <div v-if="userRole == ACCESS_ENUM.ADMIN">
+        管理员：{{ userName ?? "未登录" }}
+      </div>
+      <div v-else>
         {{ userName ?? "未登录" }}
       </div>
     </a-col>
@@ -46,6 +49,9 @@ const store = useStore();
 
 const userName = computed(() => {
   return store.state.user.loginUser.userName;
+});
+const userRole = computed(() => {
+  return store.state.user.loginUser.userRole;
 });
 
 //默认的是主页
