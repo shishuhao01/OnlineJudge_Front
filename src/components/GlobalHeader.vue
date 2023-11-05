@@ -111,4 +111,6 @@ const doMenuClick = (key) => {
   color: black;
   font-size: 20px;
 }
+#GlobalHeader {
+}
 </style>

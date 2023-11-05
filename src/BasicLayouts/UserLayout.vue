@@ -1,7 +1,10 @@
 <template>
   <div id="userLayout">
     <a-layout style="min-height: 100vh">
-      <a-layout-header class="header" v-if="current == null">
+      <a-layout-header
+        class="header"
+        v-if="current == null || loginView || registerView"
+      >
         <img
           src="@/img/a.jpeg"
           class="logo"
@@ -11,7 +14,9 @@
 
       <a-layout-content class="content">
         <div>
-          <template v-if="current != null"> 你好啊{{ current }} </template>
+          <template v-if="current != null && userView">
+            你好啊{{ current }}
+          </template>
         </div>
         <router-view />
       </a-layout-content>
@@ -33,6 +38,9 @@ import { useRoute, useRouter } from "vue-router";
 const route = useRoute();
 const router = useRouter();
 const loginUser = useStore();
+const loginView = route.path.includes("/login");
+const registerView = route.path.includes("/register");
+const userView = route.path.endsWith("/user");
 
 const current = computed(() => {
   if (loginUser.state.user.loginUser.userName == "未登录") {

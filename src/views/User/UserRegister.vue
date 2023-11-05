@@ -1,5 +1,5 @@
 <template>
-  <h2 style="margin-bottom: 16px">欢迎注册</h2>
+  <h2 style="margin-bottom: 16px; text-align: center">欢迎注册</h2>
   <div id="userLogin">
     <a-form
       :model="form"
@@ -45,7 +45,7 @@ import { UserControllerService, UserRegisterRequest } from "../../../generated";
 import { reactive } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { useStore } from "vuex";
-import { Notification } from "@arco-design/web-vue";
+import { Message, Notification } from "@arco-design/web-vue";
 import ACCESS_ENUM from "@/access/accessEnum";
 import user from "@/store/user";
 
@@ -76,9 +76,7 @@ const handleSubmit = async () => {
     });
     //登录后不能返回登录页
   } else {
-    Notification.info({
-      content: "注册失败",
-    });
+    Message.error("注册失败,注意格式和提示");
   }
 };
 </script>

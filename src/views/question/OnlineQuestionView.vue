@@ -10,30 +10,74 @@
                 :column="{ xs: 1, md: 2, lg: 3 }"
               >
                 <a-descriptions-item label="时间限制">
-                  {{ question.judgeConfig.timeLimit ?? 0 }}
+                  {{judgeConfig.timeLimit ?? 0 }}
                 </a-descriptions-item>
                 <a-descriptions-item label="内存限制">
-                  {{ question.judgeConfig.memoryLimit ?? 0 }}
+                  {{ judgeConfig.memoryLimit ?? 0 }}
                 </a-descriptions-item>
                 <a-descriptions-item label="堆栈限制">
-                  {{ question.judgeConfig.stackLimit ?? 0 }}
+                  {{judgeConfig.stackLimit ?? 0 }}
                 </a-descriptions-item>
               </a-descriptions>
+              <h2>题目描述</h2>
               <MdEditor :value="question.content" />
+
+
               <template #extra>
                 <a-space wrap>
-                  <a-tag
-                    v-for="(tag, index) of question.tags"
-                    :key="index"
+                  <template v-for="(tag, index) of tags" :key="index">
+                  <a-tag v-if="tag == '中等'"
+                    color="orange"
+                    >{{ tag }}
+                  </a-tag>
+                  <a-tag v-else-if="tag == '困难'"
+                    color="red"
+                    >{{ tag }}
+                  </a-tag>
+                  <a-tag v-else-if="tag == '简单'" 
+                    color="blue"
+                    >{{ tag }}
+                  </a-tag>
+                  <a-tag v-else 
                     color="green"
                     >{{ tag }}
                   </a-tag>
+                  </template>
                 </a-space>
+
+
+
               </template>
+              <a-descriptions
+                title="示例"
+                :column="{ xs: 1, md: 1, lg: 1 }"
+              >
+                <a-descriptions-item label="输入示例1"> 
+                  [{{ judgeCase[0].input ?? 0 }}]
+                </a-descriptions-item>
+                <a-descriptions-item label="输出实例1">
+                  [{{ judgeCase[0].output ?? 0 }}]
+                </a-descriptions-item>
+              </a-descriptions>
+               <template v-if="judgeCase[1] != null">
+                <a-descriptions
+                title="示例"
+                :column="{ xs: 1, md: 1, lg: 1 }"   
+              >
+                <a-descriptions-item label="输入示例2"> 
+                  [{{ judgeCase[1].input ?? 0 }}]
+                </a-descriptions-item>
+                <a-descriptions-item label="输出实例2">
+                  [{{ judgeCase[1].output ?? 0 }}]
+                </a-descriptions-item>
+              </a-descriptions>
+               </template>
             </a-card>
           </a-tab-pane>
-          <a-tab-pane key="comment" title="评论" disabled> 评论区</a-tab-pane>
-          <a-tab-pane key="answer" title="答案"> 暂时无法查看答案</a-tab-pane>
+          <a-tab-pane key="comment" title="评论" closable> 评论区</a-tab-pane>
+          <a-tab-pane key="answer" title="答案"> 
+             <pre>{{code}}</pre>
+          </a-tab-pane>
         </a-tabs>
       </a-col>
       <a-col :md="12" :xs="24">
@@ -76,21 +120,30 @@ import {
   QuestionControllerService,
   QuestionSubmitAddRequest,
   QuestionVO,
+  Question
 } from "../../../generated";
 import CodeEditor from "@/components/CodeEditor.vue";
 import MdEditor from "@/components/MdEditorViewer.vue";
 
-const question = ref<QuestionVO>();
+const question = ref<Question>();
 const route = useRoute();
 const questionId = route.params.id;
-const color = "green";
+const color = "green"
+let judgeCase = ref()
+const tags = ref()
+const code = ref()
+const judgeConfig = ref();
 const getQuestionVO = async () => {
-  console.log(questionId);
-  const res = await QuestionControllerService.getQuestionVoByIdUsingGet(
+
+  const res = await QuestionControllerService.getQuestionByIdUsingGet(
     questionId as any
   );
   if (res.code == 0) {
     question.value = res.data;
+    tags.value = JSON.parse(res.data?.tags as any);
+    judgeCase.value = JSON.parse(res.data?.judgeCase as any);
+    code.value = res.data?.answer;
+    judgeConfig.value = JSON.parse(res.data?.judgeConfig as any)
   } else {
     Message.error("查询失败");
   }
@@ -113,12 +166,12 @@ const doSubmit = async () => {
   const res = await QuestionControllerService.doQuestionSubmitUsingPost(
     form.value
   );
-  console.log(form.value, "nihap1");
+  console.log(form.value);
   if (res.code === 0) {
     Message.success("提交成功");
   } else {
     console.log(res);
-    Message.error("提交失败", res.message);
+
   }
 };
 </script>

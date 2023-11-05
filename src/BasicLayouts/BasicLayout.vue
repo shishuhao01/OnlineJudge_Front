@@ -26,7 +26,7 @@ import GlobalHeader from "@/components/GlobalHeader";
   box-shadow: #eee 1px 1px 5px;
 }
 #basicLayout .content {
-  background: linear-gradient(to right, #eee, #7ac5cd);
+  background: linear-gradient(to right,rgb(163, 163, 227), #eee);
   margin-bottom: 16px;
   padding: 20px;
 }

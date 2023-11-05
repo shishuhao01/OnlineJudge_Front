@@ -55,7 +55,6 @@ const handleSubmit = async () => {
     await store.dispatch("user/getLoginUser");
     router.push({
       path: "/",
-      replace: true,
     });
     //登录后不能返回登录页
   } else {

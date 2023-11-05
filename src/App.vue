@@ -1,9 +1,9 @@
 <template>
   <div>
-    <template v-if="route.path.startsWith('/user/login')">
+    <template v-if="route.path.includes('/login')">
       <router-view />
     </template>
-    <template v-if="route.path.startsWith('/user/register')">
+    <template v-else-if="route.path.includes('/register')">
       <router-view />
     </template>
     <template v-else>

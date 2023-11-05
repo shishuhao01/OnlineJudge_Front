@@ -12,6 +12,28 @@
     }"
     @page-change="pageChange"
   >
+
+    <template #tags="{ record }" >
+       <template v-for="(tag, index) of JSON.parse(record.tags)" :key="index" >
+                  <a-tag v-if="tag == '中等'"
+                    color="orange"
+                    >{{ tag }}
+                  </a-tag>
+                  <a-tag v-else-if="tag == '困难'"
+                    color="red"
+                    >{{ tag }}
+                  </a-tag>
+                  <a-tag v-else-if="tag == '简单'" 
+                    color="blue"
+                    >{{ tag }}
+                  </a-tag>
+                  <a-tag v-else 
+                    color="green"
+                    >{{ tag }}
+                  </a-tag>
+                  </template>
+      </template>
+
     <template #createTime="{ record }">
       <a-space> {{ moment(record.createTime).format("YYYY-MM-DD") }} </a-space>
     </template>
@@ -37,6 +59,7 @@ import {
   QuestionAddRequest,
   DeleteRequest,
 } from "../../../generated";
+
 import { onMounted, reactive, ref, watchEffect } from "vue";
 import { Page_Question_, Question } from "../../../generated";
 import { StoreOptions } from "vuex";
@@ -60,10 +83,11 @@ const pageChange = (page: number) => {
 };
 
 const tableRef = ref();
-let total = 0;
+const total = ref();
 const data = ref([]);
 const query = ref("") as QuestionQueryRequest;
 const router = useRouter();
+const tags = ref();
 
 const getAllQuestion = async () => {
   const res = await QuestionControllerService.listQuestionByPageUsingPost(
@@ -71,7 +95,9 @@ const getAllQuestion = async () => {
   );
   if (res.code == 0) {
     data.value = res.data.records;
-    total = res.data.total;
+    
+    total.value = parseInt(res.data.total);
+    
   } else {
     Message.error("查询失败");
   }
@@ -118,8 +144,9 @@ const columns = [
   //   slotName: "judgeConfig",
   // },
   {
-    title: "题目标签",
-    dataIndex: "tags",
+    title: "标签",
+    slotName: "tags",
+    width: 220,
   },
   // {
   //   title: "答案",
