@@ -246,27 +246,7 @@ export class QuestionControllerService {
     });
   }
 
-  /**
-   * listQuestionSubmitByPage
-   * @param questionSubmitQueryRequest questionSubmitQueryRequest
-   * @returns BaseResponse_Page_QuestionSubmitVO_ OK
-   * @returns any Created
-   * @throws ApiError
-   */
-  public static listQuestionSubmitByPageUsingPost(
-    questionSubmitQueryRequest: QuestionSubmitQueryRequest
-  ): CancelablePromise<BaseResponse_Page_QuestionSubmitVO_ | any> {
-    return __request(OpenAPI, {
-      method: "POST",
-      url: "/api/Question/question_submit/list/page",
-      body: questionSubmitQueryRequest,
-      errors: {
-        401: `Unauthorized`,
-        403: `Forbidden`,
-        404: `Not Found`,
-      },
-    });
-  }
+
 
   /**
    * updateQuestion
@@ -289,4 +269,65 @@ export class QuestionControllerService {
       },
     });
   }
+
+
+
+
+
+
+
+
+
+
+
+
+  /**
+   * listQuestionSubmitByPage
+   * @param questionSubmitQueryRequest questionSubmitQueryRequest
+   * @returns BaseResponse_Page_QuestionSubmitVO_ OK
+   * @returns any Created
+   * @throws ApiError
+   */
+  public static listQuestionSubmitByPageUsingPostUser(
+    questionSubmitQueryRequest: QuestionSubmitQueryRequest
+  ): CancelablePromise<BaseResponse_Page_QuestionSubmitVO_ | any> {
+    return __request(OpenAPI, {
+      method: "POST",
+      url: "/api/question_submit/list/page/user/vo",
+      body: questionSubmitQueryRequest,
+      errors: {
+        401: `Unauthorized`,
+        403: `Forbidden`,
+        404: `Not Found`,
+      },
+    });
+  }
+
+
+
+
+
+
+  public static listQuestionSubmitByPageUsingPostAdmin(
+    questionSubmitQueryRequest: QuestionSubmitQueryRequest
+  ): CancelablePromise<BaseResponse_Page_QuestionSubmitVO_ | any> {
+    return __request(OpenAPI, {
+      method: "POST",
+      url: "/api/question_submit/list/page/admin/vo",
+      body: questionSubmitQueryRequest,
+      errors: {
+        401: `Unauthorized`,
+        403: `Forbidden`,
+        404: `Not Found`,
+      },
+    });
+  }
+
+
+
+
+
+
+
+
 }

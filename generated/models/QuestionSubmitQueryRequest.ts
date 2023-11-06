@@ -4,7 +4,7 @@
 /* eslint-disable */
 
 export type QuestionSubmitQueryRequest = {
-    current?: number;
+    pageNum?: number;
     language?: string;
     pageSize?: number;
     questionId?: number;
@@ -12,4 +12,5 @@ export type QuestionSubmitQueryRequest = {
     sortOrder?: string;
     status?: number;
     userId?: number;
+    title?: string;
 };

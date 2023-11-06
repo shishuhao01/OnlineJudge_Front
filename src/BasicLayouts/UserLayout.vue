@@ -34,6 +34,7 @@ import UserRegister from "@/views/User/UserRegister.vue";
 import { useStore } from "vuex";
 import { computed } from "vue";
 import { useRoute, useRouter } from "vue-router";
+import ACCESS_ENUM from "@/access/accessEnum";
 
 const route = useRoute();
 const router = useRouter();
@@ -43,7 +44,7 @@ const registerView = route.path.includes("/register");
 const userView = route.path.endsWith("/user");
 
 const current = computed(() => {
-  if (loginUser.state.user.loginUser.userName == "未登录") {
+  if (loginUser.state.user.loginUser.userRole == ACCESS_ENUM.NOT_LOGIN) {
     if (route.path.startsWith("/user/register")) {
       router.push("/user/register");
     } else {

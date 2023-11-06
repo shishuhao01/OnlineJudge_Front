@@ -8,7 +8,11 @@ import highlight from "@bytemd/plugin-highlight";
 import { Viewer } from "@bytemd/vue-next";
 import Color from "element-plus/es/components/color-picker/src/utils/color";
 
-const plugins = [gfm(), highlight()];
+const plugins = [
+  gfm(),
+   highlight(),
+   
+   ];
 interface Props {
   value: string;
 }

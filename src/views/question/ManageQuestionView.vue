@@ -12,27 +12,14 @@
     }"
     @page-change="pageChange"
   >
-
-    <template #tags="{ record }" >
-       <template v-for="(tag, index) of JSON.parse(record.tags)" :key="index" >
-                  <a-tag v-if="tag == '中等'"
-                    color="orange"
-                    >{{ tag }}
-                  </a-tag>
-                  <a-tag v-else-if="tag == '困难'"
-                    color="red"
-                    >{{ tag }}
-                  </a-tag>
-                  <a-tag v-else-if="tag == '简单'" 
-                    color="blue"
-                    >{{ tag }}
-                  </a-tag>
-                  <a-tag v-else 
-                    color="green"
-                    >{{ tag }}
-                  </a-tag>
-                  </template>
+    <template #tags="{ record }">
+      <template v-for="(tag, index) of JSON.parse(record.tags)" :key="index">
+        <a-tag v-if="tag == '中等'" color="orange">{{ tag }} </a-tag>
+        <a-tag v-else-if="tag == '困难'" color="red">{{ tag }} </a-tag>
+        <a-tag v-else-if="tag == '简单'" color="blue">{{ tag }} </a-tag>
+        <a-tag v-else color="green">{{ tag }} </a-tag>
       </template>
+    </template>
 
     <template #createTime="{ record }">
       <a-space> {{ moment(record.createTime).format("YYYY-MM-DD") }} </a-space>
@@ -95,9 +82,7 @@ const getAllQuestion = async () => {
   );
   if (res.code == 0) {
     data.value = res.data.records;
-    
     total.value = parseInt(res.data.total);
-    
   } else {
     Message.error("查询失败");
   }

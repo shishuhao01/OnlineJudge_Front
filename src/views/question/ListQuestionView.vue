@@ -1,6 +1,6 @@
 <template>
   <div id="AllTitle">
-    <a-form :model="searchParams" layout="inline" >
+    <a-form :model="searchParams" layout="inline">
       <a-form-item field="title" label="名称" style="min-width: 240px">
         <a-input v-model="searchParams.title" placeholder="请输入名称" />
       </a-form-item>
@@ -8,7 +8,7 @@
         <a-input-tag v-model="searchParams.tags" placeholder="请输入标签" />
       </a-form-item>
       <a-form-item>
-        <a-button @click="doSubmit" type="primary">搜索</a-button>
+        <a-button @click="doSubmit" status="warning">搜索</a-button>
       </a-form-item>
     </a-form>
 
@@ -24,24 +24,12 @@
       @page-change="pageChange"
     >
       <template #tags="{ record }">
-       <template v-for="(tag, index) of record.tags" :key="index">
-                  <a-tag v-if="tag == '中等'"
-                    color="orange"
-                    >{{ tag }}
-                  </a-tag>
-                  <a-tag v-else-if="tag == '困难'"
-                    color="red"
-                    >{{ tag }}
-                  </a-tag>
-                  <a-tag v-else-if="tag == '简单'" 
-                    color="blue"
-                    >{{ tag }}
-                  </a-tag>
-                  <a-tag v-else 
-                    color="green"
-                    >{{ tag }}
-                  </a-tag>
-                  </template>
+        <template v-for="(tag, index) of record.tags" :key="index">
+          <a-tag v-if="tag == '中等'" color="orange">{{ tag }} </a-tag>
+          <a-tag v-else-if="tag == '困难'" color="red">{{ tag }} </a-tag>
+          <a-tag v-else-if="tag == '简单'" color="blue">{{ tag }} </a-tag>
+          <a-tag v-else color="green">{{ tag }} </a-tag>
+        </template>
       </template>
       <template #acceptedRate="{ record }">
         <a-space>
@@ -84,13 +72,15 @@ import moment from "moment";
 onMounted(() => {
   getAllQuestion();
 });
-const total = ref(0);
+const total = ref();
+const data = ref([]);
+
 const searchParams = ref<QuestionQueryRequest>({
   pageNum: 1,
   pageSize: 5,
   title: "",
   tags: [],
-} as QuestionQueryRequest);
+});
 
 const router = useRouter();
 
@@ -101,7 +91,6 @@ const pageChange = (page: number) => {
   };
 };
 
-const data = ref([]);
 const getAllQuestion = async () => {
   const res = await QuestionControllerService.listQuestionVoByPageUsingPost(
     searchParams.value
