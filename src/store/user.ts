@@ -21,6 +21,13 @@ export default {
         });
       }
     },
+    async UserLayout({ commit, state }, payload) {
+      commit("updateUser", {
+        ...state.loginUser,
+        userName: "未登录",
+        userRole: ACCESS_ENUM.NOT_LOGIN,
+      });
+    },
   },
   mutations: {
     updateUser(state, payload) {

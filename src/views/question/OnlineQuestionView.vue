@@ -38,20 +38,20 @@
                   </template>
                 </a-space>
               </template>
-              <a-descriptions title="示例" :column="{ xs: 1, md: 1, lg: 1 }">
-                <a-descriptions-item label="输入示例1">
+              <a-descriptions title="示例1" :column="{ xs: 1, md: 1, lg: 1 }">
+                <a-descriptions-item label="输入示例">
                   [{{ judgeCase[0].input ?? 0 }}]
                 </a-descriptions-item>
-                <a-descriptions-item label="输出实例1">
+                <a-descriptions-item label="输出实例">
                   [{{ judgeCase[0].output ?? 0 }}]
                 </a-descriptions-item>
               </a-descriptions>
               <template v-if="judgeCase[1] != null">
-                <a-descriptions title="示例" :column="{ xs: 1, md: 1, lg: 1 }">
-                  <a-descriptions-item label="输入示例2">
+                <a-descriptions title="示例2" :column="{ xs: 1, md: 1, lg: 1 }">
+                  <a-descriptions-item label="输入示例">
                     [{{ judgeCase[1].input ?? 0 }}]
                   </a-descriptions-item>
-                  <a-descriptions-item label="输出实例2">
+                  <a-descriptions-item label="输出实例">
                     [{{ judgeCase[1].output ?? 0 }}]
                   </a-descriptions-item>
                 </a-descriptions>

@@ -1,7 +1,7 @@
 <template>
   <a-form :model="searchParams" layout="inline">
-    <a-form-item field="title" label="标题" style="min-width: 240px">
-      <a-input v-model="searchParams.title" placeholder="请输入标题" />
+    <a-form-item field="title" label="用户Id" style="min-width: 240px">
+      <a-input v-model="searchParams.userId" placeholder="请输入用户Id" />
     </a-form-item>
     <a-form-item field="language" label="语言" style="min-width: 240px">
       <a-input v-model="searchParams.language" placeholder="请输入语言" />
@@ -77,7 +77,7 @@ const searchParams = ref<QuestionSubmitQueryRequest>({
   pageNum: 1,
   pageSize: 5,
   language: "",
-  title:"",
+  userId: "",
 });
 
 const pageChange = (page: number) => {

@@ -25,14 +25,23 @@
         </a-menu-item>
       </a-menu>
     </a-col>
-    <a-col flex="100px">
-      <div v-if="userRole == ACCESS_ENUM.ADMIN">
+    <a-row flex="150px" style="display: inline">
+      <a-col
+        v-if="userRole == ACCESS_ENUM.ADMIN"
+        style="color: block; margin-right: 50px"
+      >
         管理员：{{ userName ?? "未登录" }}
-      </div>
-      <div v-else>
+        <a-button type="text" status="danger" @click="layout">注销</a-button>
+      </a-col>
+      <a-col
+        v-else-if="userRole == ACCESS_ENUM.USER"
+        style="color: block; margin-right: 50px"
+      >
         {{ userName ?? "未登录" }}
-      </div>
-    </a-col>
+        <a-button type="text" status="danger" @click="layout">注销</a-button>
+      </a-col>
+      <a-col v-else style="color: block; margin-right: 50px"> 未登录 </a-col>
+    </a-row>
   </a-row>
 </template>
 
@@ -41,6 +50,7 @@ import { routes } from "@/router/router";
 import { useRoute, useRouter } from "vue-router";
 import { computed, ref, watch } from "vue";
 import { useStore } from "vuex";
+import { UserControllerService } from "../../generated";
 import checkAccess from "@/access/CheackAccess";
 import ACCESS_ENUM from "@/access/accessEnum";
 
@@ -53,6 +63,14 @@ const userName = computed(() => {
 const userRole = computed(() => {
   return store.state.user.loginUser.userRole;
 });
+
+const layout = async () => {
+  const res = await UserControllerService.userLogoutUsingPost();
+  if (res.code == 0) {
+    await store.dispatch("user/UserLayout");
+    router.push("/");
+  }
+};
 
 //默认的是主页
 const selectKeys = ref(["/titles"]);
@@ -81,20 +99,6 @@ const doMenuClick = (key) => {
     path: key,
   });
 };
-
-// 用来测试登录用户的正确性
-// setTimeout(() => {
-//   store.dispatch("user/getLoginUser", {
-//     userName: "呆鱼",
-//     role: ACCESS_ENUM.ADMIN,
-//   });
-// }, 3000);
-// setTimeout(() => {
-//   store.dispatch("user/getLoginUser", {
-//     userName: "未登录",
-//     role: ACCESS_ENUM.USER,
-//   });
-// }, 6000);
 </script>
 
 <style>

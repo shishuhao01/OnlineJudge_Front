@@ -47,7 +47,7 @@
       </template>
       <template #optional="{ record }">
         <a-space>
-          <a-button type="primary" @click="updateQuestion(record)"
+          <a-button type="primary" @click="doQuestion(record)"
             >做题</a-button
           >
         </a-space>
@@ -64,7 +64,7 @@ import {
 } from "../../../generated";
 import { onMounted, reactive, ref, watchEffect } from "vue";
 import { da } from "element-plus/es/locale";
-import { StoreOptions } from "vuex";
+import { StoreOptions, useStore } from "vuex";
 import { Message } from "@arco-design/web-vue";
 import { useRouter } from "vue-router";
 import moment from "moment";
@@ -83,6 +83,8 @@ const searchParams = ref<QuestionQueryRequest>({
 });
 
 const router = useRouter();
+const store = useStore();
+const user = store.state.user.loginUser;
 
 const pageChange = (page: number) => {
   searchParams.value = {
@@ -141,10 +143,18 @@ const columns = [
   },
 ];
 
-const updateQuestion = (question: QuestionQueryRequest) => {
+const doQuestion = (question: QuestionQueryRequest) => {
+  if (user.userName == "未登录") {
+    Message.error("您还未登录，请先登录");
+    router.push({
+    path: `/user/login`,
+    });
+  } else {
   router.push({
     path: `/question/view/${question.id}`,
   });
+  }
+
 };
 </script>
 
