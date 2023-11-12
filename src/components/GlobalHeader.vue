@@ -13,7 +13,7 @@
         >
           <div class="title-p">
             <img class="logo" src="../img/a.jpeg" />
-            <div class="title">OJ</div>
+            <div class="title">OJ系统</div>
           </div>
         </a-menu-item>
         <a-menu-item
@@ -40,7 +40,10 @@
         {{ userName ?? "未登录" }}
         <a-button type="text" status="danger" @click="layout">注销</a-button>
       </a-col>
-      <a-col v-else style="color: block; margin-right: 50px"> 未登录 </a-col>
+      <a-col v-else style="color: block; margin-right: 50px"> 
+        未登录 
+      <a-button status="warning" @click="login" style="margin-left:5px">登录</a-button>  
+      </a-col>
     </a-row>
   </a-row>
 </template>
@@ -63,6 +66,10 @@ const userName = computed(() => {
 const userRole = computed(() => {
   return store.state.user.loginUser.userRole;
 });
+
+const login = () =>{
+  router.push("/user/login");
+}
 
 const layout = async () => {
   const res = await UserControllerService.userLogoutUsingPost();

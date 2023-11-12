@@ -8,7 +8,7 @@
         <img
           src="@/img/a.jpeg"
           class="logo"
-          style="position: relative; margin-left: 670px"
+          style="position: relative; margin-left: 750px"
         />
       </a-layout-header>
 
@@ -22,7 +22,7 @@
       </a-layout-content>
 
       <a-layout-footer class="footer">
-        <a href="http://www.baidu.com" target="_blank">百度一下</a>
+
       </a-layout-footer>
     </a-layout>
   </div>

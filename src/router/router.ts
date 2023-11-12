@@ -11,6 +11,25 @@ import AddQuestion from "@/views/question/AddQuestionView.vue";
 import OnlineJudge from "@/views/question/OnlineQuestionView.vue";
 
 export const routes = [
+  //不需要用户登录
+  {
+    path: "/",
+    name: "首页",
+    component: HomeView,
+    meta: {
+      access: ACCESS_ENUM.NOT_LOGIN,
+    },
+  },
+  {
+    path: "/Titles",
+    name: "题目信息",
+    component: Titles,
+    meta: {
+      access: ACCESS_ENUM.NOT_LOGIN,
+    },
+  },
+
+
   // 仅管理员可见
   {
     path: "/question/add",
@@ -30,23 +49,7 @@ export const routes = [
     },
   },
 
-  //不需要用户登录
-  {
-    path: "/",
-    name: "首页",
-    component: HomeView,
-    meta: {
-      access: ACCESS_ENUM.NOT_LOGIN,
-    },
-  },
-  {
-    path: "/Titles",
-    name: "题目信息",
-    component: Titles,
-    meta: {
-      access: ACCESS_ENUM.NOT_LOGIN,
-    },
-  },
+
 
   {
     path: "/question/view/:id",

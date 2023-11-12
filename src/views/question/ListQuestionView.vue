@@ -35,7 +35,7 @@
         <a-space>
           {{
             `${
-              record.submitNum ? record.acceptedNum / record.submitNum : "0"
+              record.submitNum ?  (record.acceptedNum / record.submitNum * 100) ? (record.acceptedNum / record.submitNum * 100).toFixed(2) : "0": "0"
             }%  (${record.acceptedNum}/${record.submitNum})`
           }}
         </a-space>
@@ -77,7 +77,7 @@ const data = ref([]);
 
 const searchParams = ref<QuestionQueryRequest>({
   pageNum: 1,
-  pageSize: 5,
+  pageSize: 10,
   title: "",
   tags: [],
 });

@@ -60,7 +60,87 @@
           </a-tab-pane>
           <a-tab-pane key="comment" title="评论" closable> 评论区</a-tab-pane>
           <a-tab-pane key="answer" title="答案">
-            <pre>{{code}}</pre>
+            <pre>{{ code }}</pre>
+          </a-tab-pane>
+          <a-tab-pane
+            key="submitMsg"
+            title="提交记录"
+            @click="checkSubmitMsg"
+            closable
+          >
+            <a-table :columns="columns" :data="submitMsg">
+              <template #judgeInfo="{ record }">
+                <a-space
+                  v-if="record.judgeInfo.message == '答案错误'"
+                  style="color: #ff0000"
+                >
+                  {{ record.judgeInfo.message }}
+                </a-space>
+                <a-space
+                  v-if="record.judgeInfo.message == '超时'"
+                  style="color: #0000ff"
+                >
+                  {{ record.judgeInfo.message }}
+                </a-space>
+                <a-space
+                  v-if="record.judgeInfo.message == '危险操作'"
+                  style="color: red"
+                >
+                  {{ record.judgeInfo.message }}
+                </a-space>
+                <a-space
+                  v-if="record.judgeInfo.message == '编译错误'"
+                  style="color: #eb0aa4"
+                >
+                  {{ record.judgeInfo.message }}
+                </a-space>
+                <a-space
+                  v-else-if="record.judgeInfo.message == '成功'"
+                  style="color: #00ff00"
+                >
+                  {{ record.judgeInfo.message }}
+                </a-space>
+
+                <a-space
+                  v-if="record.judgeInfo.message == '内存溢出'"
+                  style="color: #0066ff"
+                >
+                  {{ record.judgeInfo.message }}
+                </a-space>
+
+                <a-space
+                  v-if="record.judgeInfo.message == '成功'"
+                  style="margin-left: 10px"
+                >
+                  time: {{ record.judgeInfo.time }}ms
+                </a-space>
+                <a-space
+                  v-if="record.judgeInfo.message == '成功'"
+                  style="margin-left: 10px"
+                >
+                  memory: {{ record.judgeInfo.memoryLimit }}KB
+                </a-space>
+              </template>
+              <template #status="{ record }">
+                <a-space v-if="record.status == 2" style="color: #00ff00">
+                  完成
+                </a-space>
+                <a-space v-else-if="record.status == 1" style="color: #ffff66">
+                  判题中
+                </a-space>
+                <a-space v-else-if="record.status == 0" style="color: #ccffff">
+                  等待中
+                </a-space>
+                <a-space v-else-if="record.status == 3" style="color: #ff0000">
+                  判题失败
+                </a-space>
+              </template>
+              <template #updateTime="{ record }">
+                <a-space>
+                  {{ moment(record.updateTime).format("YYYY-MM-DD  HH:MM:SS") }}
+                </a-space>
+              </template>
+            </a-table>
           </a-tab-pane>
         </a-tabs>
       </a-col>
@@ -79,6 +159,7 @@
               <a-option>java</a-option>
               <a-option>cpp</a-option>
               <a-option>go</a-option>
+              <a-option>html</a-option>
             </a-select>
           </a-form-item>
         </a-form>
@@ -100,11 +181,14 @@
 import { Message } from "@arco-design/web-vue";
 import { onMounted, ref } from "vue";
 import { useRoute } from "vue-router";
+import { useStore } from "vuex";
+import moment from "moment";
 import {
   QuestionControllerService,
   QuestionSubmitAddRequest,
   QuestionVO,
   Question,
+  QuestionSubmitQueryRequest,
 } from "../../../generated";
 import CodeEditor from "@/components/CodeEditor.vue";
 import MdEditor from "@/components/MdEditorViewer.vue";
@@ -117,16 +201,28 @@ let judgeCase = ref();
 const tags = ref();
 const code = ref();
 const judgeConfig = ref();
+const submitMsg = ref();
+
 const getQuestionVO = async () => {
   const res = await QuestionControllerService.getQuestionByIdUsingGet(
     questionId as any
   );
+
+  const res2 =
+    await QuestionControllerService.listQuestionSubmitByPageUsingPostUser(
+      userSubmitMsg.value
+    );
+
   if (res.code == 0) {
     question.value = res.data;
     tags.value = JSON.parse(res.data?.tags as any);
     judgeCase.value = JSON.parse(res.data?.judgeCase as any);
     code.value = res.data?.answer;
     judgeConfig.value = JSON.parse(res.data?.judgeConfig as any);
+    if (res2.code == 0) {
+      submitMsg.value = res2.data.records;
+      console.log(res2.data.records);
+    }
   } else {
     Message.error("查询失败");
   }
@@ -140,22 +236,63 @@ onMounted(() => {
   getQuestionVO();
 });
 const form = ref<QuestionSubmitAddRequest>({
-  code: "",
-  language: "",
+  code:
+    "// 注意,所有的参数从args数组中输入,结果打印在控制台即可 \n" +
+    "public class Main{ \n" +
+    "    public static void main(String[] args){ \n" +
+    "\n" +
+    "    }\n" +
+    "} \n",
+  language: "java",
   questionId: questionId as any,
+});
+const store = useStore();
+const user = store.state.user.loginUser;
+
+const userSubmitMsg = ref<QuestionSubmitQueryRequest>({
+  questionId: route.params.id as any,
+  userId: user.id,
 });
 
 const doSubmit = async () => {
   const res = await QuestionControllerService.doQuestionSubmitUsingPost(
     form.value
   );
-  console.log(form.value);
+   getQuestionVO();
+
   if (res.code === 0) {
     Message.success("提交成功");
   } else {
     console.log(res);
   }
 };
+
+const columns = [
+  {
+    title: "编程语言",
+    dataIndex: "language",
+  },
+  {
+    title: "提交用户姓名",
+    dataIndex: "userVO.userName",
+  },
+  {
+    title: "标题",
+    dataIndex: "questionVO.title",
+  },
+  {
+    title: "判题结果",
+    slotName: "judgeInfo",
+  },
+  {
+    title: "判题状态",
+    slotName: "status",
+  },
+  {
+    title: "提交时间",
+    slotName: "updateTime",
+  },
+];
 </script>
 
 <style></style>

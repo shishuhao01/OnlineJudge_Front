@@ -34,7 +34,7 @@
       </a-form-item>
 
       <a-form-item>
-        <a-button type="primary" html-type="submit"> 注册</a-button>
+        <a-button type="primary" @click="submit"> 注册</a-button>
       </a-form-item>
     </a-form>
   </div>
@@ -60,21 +60,24 @@ const route = useRoute();
 const router = useRouter();
 const store = useStore();
 
-const handleSubmit = async () => {
+const submit = async () => {
   const res = await UserControllerService.userRegisterUsingPost(form);
   if (res.code == 0) {
-    Notification.info({
-      content: "注册成功",
-    });
-    store.dispatch("user/getLoginUser", {
-      userName: form.userName,
-      role: ACCESS_ENUM.USER,
-    });
-    router.push({
-      path: "/",
-      replace: true,
-    });
-    //登录后不能返回登录页
+    const res = await UserControllerService.userLoginUsingPost(form);
+    if (res.code == 0) {
+      Notification.info({
+        content: "注册成功",
+      });
+      await store.dispatch("user/getLoginUser");
+      router.push({
+        path: "/",
+      });
+      //登录后不能返回登录页
+    } else {
+      Notification.info({
+        content: "注册失败",
+      });
+    }
   } else {
     Message.error("注册失败,注意格式和提示");
   }
