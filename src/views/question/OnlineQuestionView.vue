@@ -2,7 +2,7 @@
   <div id="viewQuestionView">
     <a-row :gutter="[24, 24]">
       <a-col :md="12" :xs="24">
-        <a-tabs default-active-key="question">
+        <a-tabs :active-key="selectKeys" @tab-click="changeKeys">
           <a-tab-pane key="question" title="题目">
             <a-card v-if="question != null" :title="question.title">
               <a-descriptions
@@ -202,16 +202,16 @@ const tags = ref();
 const code = ref();
 const judgeConfig = ref();
 const submitMsg = ref();
+const selectKeys = ref("question");
+
+const changeKeys = (value: string) => {
+  selectKeys.value = value;
+};
 
 const getQuestionVO = async () => {
   const res = await QuestionControllerService.getQuestionByIdUsingGet(
     questionId as any
   );
-
-  const res2 =
-    await QuestionControllerService.listQuestionSubmitByPageUsingPostUser(
-      userSubmitMsg.value
-    );
 
   if (res.code == 0) {
     question.value = res.data;
@@ -219,9 +219,12 @@ const getQuestionVO = async () => {
     judgeCase.value = JSON.parse(res.data?.judgeCase as any);
     code.value = res.data?.answer;
     judgeConfig.value = JSON.parse(res.data?.judgeConfig as any);
+    const res2 =
+      await QuestionControllerService.listQuestionSubmitByPageUsingPostUser(
+        userSubmitMsg.value
+      );
     if (res2.code == 0) {
       submitMsg.value = res2.data.records;
-      console.log(res2.data.records);
     }
   } else {
     Message.error("查询失败");
@@ -258,10 +261,11 @@ const doSubmit = async () => {
   const res = await QuestionControllerService.doQuestionSubmitUsingPost(
     form.value
   );
-   getQuestionVO();
+  getQuestionVO();
 
   if (res.code === 0) {
     Message.success("提交成功");
+    changeKeys("submitMsg");
   } else {
     console.log(res);
   }
