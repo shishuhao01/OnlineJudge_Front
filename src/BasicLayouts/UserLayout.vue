@@ -3,7 +3,7 @@
     <a-layout style="min-height: 100vh">
       <a-layout-header
         class="header"
-        v-if="current == null || loginView || registerView"
+        v-if="current == null"
       >
         <img
           src="@/img/a.jpeg"

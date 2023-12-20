@@ -174,7 +174,6 @@ let form = ref({
   // public int trap(int[] height) {\n    int n = height.length;\n    if (n == 0) {\n        return 0;\n    }\n    int[] leftMax = new int[n];\n    leftMax[0] = height[0];\n    for (int i = 1; i < n; ++i) {\n        leftMax[i] = Math.max(leftMax[i - 1], height[i]);\n    }\n    int[] rightMax = new int[n];\n    rightMax[n - 1] = height[n - 1];\n    for (int i = n - 2; i >= 0; --i) {\n        rightMax[i] = Math.max(rightMax[i + 1], height[i]);\n    }\n    int ans = 0;\n    for (int i = 0; i < n; ++i) {\n        ans += Math.min(leftMax[i], rightMax[i]) - height[i];\n    }\n    return ans;\n}
   content: "",
   judgeConfig: {
-    
     memoryLimit: 0,
     stackLimit: 0,
     timeLimit: 0,
@@ -211,7 +210,7 @@ const doSubmit = async () => {
       form.value
     );
     if (res.code == 0) {
-      console.log(form.value.answer)
+      console.log(form.value.answer);
       Message.success("修改成功");
       loadData();
     } else {

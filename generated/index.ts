@@ -45,6 +45,11 @@ export type { PostUpdateRequest } from "./models/PostUpdateRequest";
 export type { PostVO } from "./models/PostVO";
 export type { Question } from "./models/Question";
 export type { QuestionAddRequest } from "./models/QuestionAddRequest";
+export type { CompetitionAddRequest } from "./models/CompetitionAddRequest";
+export type { CompetitionQueryRequest } from "./models/CompetitionQueryRequest";
+export type { CompetitionDeleteRequest } from "./models/CompetitionDeleteRequest";
+export type { UserCompetitionRecordAddRequest } from "./models/UserCompetitionRecordAddRequest";
+
 export type { QuestionEditRequest } from "./models/QuestionEditRequest";
 export type { QuestionDeleteRequest } from "./models/QuestionDeleteRequest";
 export type { QuestionQueryRequest } from "./models/QuestionQueryRequest";
@@ -53,6 +58,7 @@ export type { QuestionSubmitQueryRequest } from "./models/QuestionSubmitQueryReq
 export type { QuestionSubmitVO } from "./models/QuestionSubmitVO";
 export type { QuestionUpdateRequest } from "./models/QuestionUpdateRequest";
 export type { QuestionVO } from "./models/QuestionVO";
+
 export type { User } from "./models/User";
 export type { UserAddRequest } from "./models/UserAddRequest";
 export type { UserLoginRequest } from "./models/UserLoginRequest";
@@ -67,5 +73,8 @@ export { PostControllerService } from "./services/PostControllerService";
 export { PostFavourControllerService } from "./services/PostFavourControllerService";
 export { PostThumbControllerService } from "./services/PostThumbControllerService";
 export { QuestionControllerService } from "./services/QuestionControllerService";
+export { CompetitionControllerService } from "./services/CompetitionControllerService";
+export { UserCompetitionRecordService } from "./services/UserCompetitionRecordService"
+
 export { UserControllerService } from "./services/UserControllerService";
 export { WxMpControllerService } from "./services/WxMpControllerService";

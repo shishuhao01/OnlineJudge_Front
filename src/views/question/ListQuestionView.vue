@@ -35,7 +35,11 @@
         <a-space>
           {{
             `${
-              record.submitNum ?  (record.acceptedNum / record.submitNum * 100) ? (record.acceptedNum / record.submitNum * 100).toFixed(2) : "0": "0"
+              record.submitNum
+                ? (record.acceptedNum / record.submitNum) * 100
+                  ? ((record.acceptedNum / record.submitNum) * 100).toFixed(2)
+                  : "0"
+                : "0"
             }%  (${record.acceptedNum}/${record.submitNum})`
           }}
         </a-space>
@@ -47,9 +51,7 @@
       </template>
       <template #optional="{ record }">
         <a-space>
-          <a-button type="primary" @click="doQuestion(record)"
-            >做题</a-button
-          >
+          <a-button type="primary" @click="doQuestion(record)">做题</a-button>
         </a-space>
       </template>
     </a-table>
@@ -147,14 +149,13 @@ const doQuestion = (question: QuestionQueryRequest) => {
   if (user.userName == "未登录") {
     Message.error("您还未登录，请先登录");
     router.push({
-    path: `/user/login`,
+      path: `/user/login`,
     });
   } else {
-  router.push({
-    path: `/question/view/${question.id}`,
-  });
+    router.push({
+      path: `/question/view/${question.id}`,
+    });
   }
-
 };
 </script>
 

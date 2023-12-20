@@ -9,6 +9,11 @@ import UserLogin from "@/views/User/UserLogin.vue";
 import UserRegister from "@/views/User/UserRegister.vue";
 import AddQuestion from "@/views/question/AddQuestionView.vue";
 import OnlineJudge from "@/views/question/OnlineQuestionView.vue";
+import AddCompetition from "@/views/competition/AddCompetitionView.vue"
+import TakeCompetition from "@/views/competition/TakeCompetitionView.vue";
+import OnlineCompetition from "@/views/competition/OnlineCompetitionView.vue"
+import ListCompetition from  "@/views/competition/ListCompetitionView.vue"
+import ProsonInformation from "@/views/competition/PersonInformain.vue"
 
 export const routes = [
   //不需要用户登录
@@ -29,7 +34,6 @@ export const routes = [
     },
   },
 
-
   // 仅管理员可见
   {
     path: "/question/add",
@@ -49,11 +53,9 @@ export const routes = [
     },
   },
 
-
-
   {
     path: "/question/view/:id",
-    name:"在线做题",
+    name: "在线做题",
     component: OnlineJudge,
     props: true,
     meta: {
@@ -62,6 +64,15 @@ export const routes = [
     },
   },
 
+  {
+    path: "/Profiles",
+    name: "个人信息填写",
+    component: ProsonInformation,
+    meta: {
+      access: ACCESS_ENUM.USER,
+      hideInMenu: true,
+    },
+  },
   //需要用户登录
   {
     path: "/SubmitMsg",
@@ -71,6 +82,43 @@ export const routes = [
       access: ACCESS_ENUM.USER,
     },
   },
+  // 仅管理员可见
+  {
+    path: "/competition/add",
+    name: "添加比赛",
+    component: AddCompetition,
+    meta: {
+      access: ACCESS_ENUM.ADMIN,
+    },
+  },
+  {
+    path: "/competition/Application",
+    name: "比赛报名",
+    component: ListCompetition,
+    meta: {
+      access: ACCESS_ENUM.USER,
+    },
+  },
+  {
+    path: "/competition/participate",
+    name: "参加比赛",
+    component: TakeCompetition,
+    meta: {
+      access: ACCESS_ENUM.USER,
+    },
+  },
+  {
+    path: "/competition/online/:competitionId",
+    name: "在线比赛",
+    component: OnlineCompetition,
+    props: true,
+    meta: {
+      access: ACCESS_ENUM.USER,
+      hideInMenu: true,
+    },
+  },
+
+  
   {
     path: "/user",
     name: "关于我的",

@@ -25,7 +25,7 @@
   >
     <template #status="{ record }">
       <a-space v-if="record.status == 2" style="color: #00ff00"> 完成 </a-space>
-      <a-space v-else-if="record.status == 1" style="color: #ffff66">
+      <a-space v-else-if="record.status == 1" style="color: #0fc6c2">
         判题中
       </a-space>
       <a-space v-else-if="record.status == 0" style="color: #ccffff">
@@ -85,7 +85,7 @@
 
     <template #updateTime="{ record }">
       <a-space>
-        {{ moment(record.updateTime).format("YYYY-MM-DD  HH:MM:SS") }}
+        {{ moment(record.updateTime).format("YYYY-MM-DD  HH:mm:ss") }}
       </a-space>
     </template>
   </a-table>
@@ -127,6 +127,7 @@ const getAllQuestionSubmit = async () => {
         searchParams.value
       );
     if (res.code == 0) {
+      console.log(res.data);
       data.value = res.data.records;
       total.value = parseInt(res.data.total);
     } else {

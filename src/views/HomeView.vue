@@ -16,3 +16,11 @@ export default defineComponent({
   },
 });
 </script>
+<style scoped>
+.home {
+  text-align: center
+  ;
+
+}
+
+</style>

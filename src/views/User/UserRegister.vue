@@ -35,7 +35,9 @@
 
       <a-form-item>
         <a-button type="primary" @click="submit"> 注册</a-button>
+         <a-button type="primary" status="success" @click="login" style="margin-left:10px">登录</a-button>
       </a-form-item>
+      
     </a-form>
   </div>
 </template>
@@ -59,6 +61,9 @@ const form = reactive({
 const route = useRoute();
 const router = useRouter();
 const store = useStore();
+const login = () => {
+  router.push("/user/login");
+}
 
 const submit = async () => {
   const res = await UserControllerService.userRegisterUsingPost(form);

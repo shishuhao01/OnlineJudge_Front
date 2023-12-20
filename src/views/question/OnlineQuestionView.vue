@@ -77,7 +77,10 @@
                   {{ record.judgeInfo.message }}
                 </a-space>
                 <a-space
-                  v-if="record.judgeInfo.message == '超时'"
+                  v-if="
+                    record.judgeInfo.message == '超时' ||
+                    record.judgeInfo.message == '程序运行时异常'
+                  "
                   style="color: #0000ff"
                 >
                   {{ record.judgeInfo.message }}
@@ -137,7 +140,7 @@
               </template>
               <template #updateTime="{ record }">
                 <a-space>
-                  {{ moment(record.updateTime).format("YYYY-MM-DD  HH:MM:SS") }}
+                  {{ moment(record.updateTime).format("YYYY-MM-DD  HH:mm:ss") }}
                 </a-space>
               </template>
             </a-table>
