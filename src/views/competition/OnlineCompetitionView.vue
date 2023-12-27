@@ -1,6 +1,15 @@
 <template>
   <div id="AllTitle">
-    <div style="margin-left: 1000px">得分：{{ score }}</div>
+    <a-row>
+      <a-col :flex="1">
+        <div style="margin-left: 600px; font-size: 30px">
+          倒计时: {{ countdown }}
+        </div>
+      </a-col>
+      <a-col style="margin-left: 1200px; font-size: 30px"
+        >得分 {{ score }}</a-col
+      >
+    </a-row>
     <a-table
       :columns="columns"
       :data="questionData"
@@ -42,7 +51,9 @@
 
       <template #optional="{ record }">
         <a-space>
-          <a-button type="primary" @click="doQuestion(record)">做题</a-button>
+          <a-button type="primary" @click="DoCmopetitionQuestion(record.id)"
+            >做题</a-button
+          >
         </a-space>
       </template>
     </a-table>
@@ -50,21 +61,67 @@
 </template>
 
 <script lang="ts" setup>
-import router from "@/router";
 import { Message } from "@arco-design/web-vue";
-import { onMounted, ref } from "vue";
-import { useRoute } from "vue-router";
+import { onMounted, reactive, ref, watch, onUnmounted, watchEffect } from "vue";
+import { useRoute, useRouter } from "vue-router";
 import {
   CompetitionControllerService,
   CompetitionDeleteRequest,
+  UserCompetitionRecordService,
 } from "../../../generated";
 import moment from "moment";
 
 const route = useRoute();
 const questionData = ref();
-const score = ref(0);
+const router = useRouter();
 
 const competitionId = route.params.competitionId;
+const userRecord = ref();
+const score = ref();
+
+const endTime = ref("");
+const countdown = ref("");
+ let timerId: number | null = null
+
+const calculateCountdown = () => {
+  const now = new Date();
+  const end = new Date();
+  end.setHours(parseInt(endTime.value.split(":")[0]));
+  end.setMinutes(parseInt(endTime.value.split(":")[1]));
+  end.setSeconds(parseInt(endTime.value.split(":")[2]));
+
+  const diff = end.getTime() - now.getTime();
+
+  if (diff <= 0) {
+    countdown.value = "00:00:00";
+    router.push("/competition/participate");
+  } else {
+    const hours = Math.floor(diff / (1000 * 60 * 60));
+    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+    countdown.value = `${hours.toString().padStart(2, "0")}:${minutes
+      .toString()
+      .padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
+  }
+};
+
+watch(
+  () => endTime.value,
+  () => {
+    setInterval(calculateCountdown, 1000);
+  }
+);
+
+timerId = window.setInterval(calculateCountdown, 1000)
+
+    onUnmounted(() => {
+      if (timerId) {
+        window.clearInterval(timerId)
+      }
+    })
+
+
 
 const getOnlineCompetitionMsg = async () => {
   const res = await CompetitionControllerService.getCompetitionByUsingPost(
@@ -73,14 +130,37 @@ const getOnlineCompetitionMsg = async () => {
   if (res.code == 0) {
     Message.success("欢迎参加比赛");
     questionData.value = res.data.questionVOList;
-    console.log(questionData.value);
+    endTime.value = res.data.endTime;
   } else {
     Message.error("系统出现问题了");
   }
 };
 
+const getUserCompetitionRecord = async () => {
+  const res = await UserCompetitionRecordService.getUserCompetitionRecord(
+    competitionId as any
+  );
+  if (res.code == 0) {
+    userRecord.value = res.data as any;
+    score.value = res.data.score;
+  } else {
+  }
+};
+
+const DoCmopetitionQuestion = (questionId: any) => {
+  router.push({
+    path: `/competition/doQuestion`,
+    query: {
+      questionId: questionId,
+      competitionId: competitionId,
+      endTime: endTime.value,
+    },
+  });
+};
+
 onMounted(() => {
   getOnlineCompetitionMsg();
+  getUserCompetitionRecord();
 });
 
 const columns = [

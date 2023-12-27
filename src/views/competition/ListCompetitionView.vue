@@ -4,21 +4,41 @@
       v-for="(record, index) in data"
       :key="index"
       class="box-card"
-      style="width: 250px; height: 400px"
+      style="
+        display: inline-block;
+        max-width: 400px;
+        margin-left: 100px;
+        min-height: 600px;
+        background-color: #f0f8ff;
+      "
     >
       <template #header>
-        <div class="card-header" style="height: 200px">
-          <span>{{ record.competitionTitle }}</span>
+        <div class="card-header" style="display: inline-block">
+          <span>标题： {{ record.competitionTitle }}</span>
           <br />
-          <span>{{ record.competitionContext }}</span>
+          <span>描述： {{ record.competitionContext }}</span>
+          <a-image
+            width="100%"
+            height="100%"
+            :src="'http://localhost:8101/api/image/' + record.imgUrl"
+          />
         </div>
       </template>
-      <div>
-        比赛组别：{{ record.languageType }} 组<br />
-        比赛日期：{{ record.date }}<br />
 
-        比赛开始时间：{{ record.startTime }}<br />
-        比赛结束时间：{{ record.endTime }}<br />
+      <div style="margin-top: 5px">
+        <span style="margin-bottom: 5px">
+          比赛组别：{{ record.languageType }} 组 <br
+        /></span>
+        <span style="margin-bottom: 5px">
+          比赛日期：{{ record.date }}<br
+        /></span>
+
+        <span style="margin-bottom: 5px">
+          比赛开始时间：{{ record.startTime }}<br
+        /></span>
+        <span style="margin-bottom: 5px">
+          比赛结束时间：{{ record.endTime }}<br
+        /></span>
       </div>
 
       <div

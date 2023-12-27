@@ -14,6 +14,8 @@ import TakeCompetition from "@/views/competition/TakeCompetitionView.vue";
 import OnlineCompetition from "@/views/competition/OnlineCompetitionView.vue"
 import ListCompetition from  "@/views/competition/ListCompetitionView.vue"
 import ProsonInformation from "@/views/competition/PersonInformain.vue"
+import DoCompetition from "@/views/competition/DoQuestionView.vue"
+
 
 export const routes = [
   //不需要用户登录
@@ -112,6 +114,16 @@ export const routes = [
     name: "在线比赛",
     component: OnlineCompetition,
     props: true,
+    meta: {
+      access: ACCESS_ENUM.USER,
+      hideInMenu: true,
+    },
+  },
+
+  {
+    path: "/competition/doQuestion",
+    name: "做题页面",
+    component: DoCompetition,
     meta: {
       access: ACCESS_ENUM.USER,
       hideInMenu: true,

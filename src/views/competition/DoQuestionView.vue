@@ -1,5 +1,8 @@
 <template>
   <div id="viewQuestionView">
+    <div style="margin-left: 600px; font-size: 30px">
+      倒计时: {{ countdown }}
+    </div>
     <a-row :gutter="[24, 24]">
       <a-col :md="12" :xs="24">
         <a-tabs :active-key="selectKeys" @tab-click="changeKeys">
@@ -182,8 +185,8 @@
 
 <script setup lang="ts">
 import { Message } from "@arco-design/web-vue";
-import { onMounted, ref } from "vue";
-import { useRoute } from "vue-router";
+import { onMounted, ref, watch,onUnmounted } from "vue";
+import { useRoute, useRouter } from "vue-router";
 import { useStore } from "vuex";
 import moment from "moment";
 import {
@@ -192,13 +195,16 @@ import {
   QuestionVO,
   Question,
   QuestionSubmitQueryRequest,
+  UserCompetitionRecordDoQuestionRequest,
+  UserCompetitionRecordService,
 } from "../../../generated";
 import CodeEditor from "@/components/CodeEditor.vue";
 import MdEditor from "@/components/MdEditorViewer.vue";
+import { en } from "element-plus/es/locale";
 
 const question = ref<Question>();
+const router = useRouter();
 const route = useRoute();
-const questionId = route.params.id;
 const color = "green";
 let judgeCase = ref();
 const tags = ref();
@@ -207,8 +213,10 @@ const judgeConfig = ref();
 const submitMsg = ref();
 const selectKeys = ref("question");
 
-const competitionId = route.query.competition as string
-
+const competitionId = route.query.competitionId;
+const questionId = route.query.questionId;
+const endTime = route.query.endTime;
+let timerId: number | null = null
 
 const changeKeys = (value: string) => {
   selectKeys.value = value;
@@ -243,9 +251,45 @@ const changCode = (value: string) => {
 
 onMounted(() => {
   getQuestionVO();
-  console.log(competitionId);
+  console.log(endTime);
 });
-const form = ref<QuestionSubmitAddRequest>({
+
+const countdown = ref("");
+
+const calculateCountdown = () => {
+  if (typeof endTime === "string") {
+    const now = new Date();
+    const end = new Date();
+    end.setHours(parseInt(endTime.split(":")[0]));
+    end.setMinutes(parseInt(endTime.split(":")[1]));
+    end.setSeconds(parseInt(endTime.split(":")[2]));
+
+    const diff = end.getTime() - now.getTime();
+
+    if (diff <= 0) {
+      countdown.value = "00:00:00";
+      router.push("/competition/participate");
+    } else {
+      const hours = Math.floor(diff / (1000 * 60 * 60));
+      const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+      countdown.value = `${hours.toString().padStart(2, "0")}:${minutes
+        .toString()
+        .padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
+    }
+  }
+};
+
+timerId = window.setInterval(calculateCountdown, 1000)
+
+    onUnmounted(() => {
+      if (timerId) {
+        window.clearInterval(timerId)
+      }
+    })
+
+const form = ref<UserCompetitionRecordDoQuestionRequest>({
   code:
     "// 注意,所有的参数从args数组中输入,结果打印在控制台即可 \n" +
     "public class Main{ \n" +
@@ -255,8 +299,8 @@ const form = ref<QuestionSubmitAddRequest>({
     "} \n",
   language: "java",
   questionId: questionId as any,
+  competitionId: competitionId as any,
 });
-
 
 const store = useStore();
 const user = store.state.user.loginUser;
@@ -266,20 +310,18 @@ const userSubmitMsg = ref<QuestionSubmitQueryRequest>({
   userId: user.id,
 });
 
-
-
-
 const doSubmit = async () => {
-  const res = await QuestionControllerService.doQuestionSubmitUsingPost(
+  console.log(countdown);
+  const res = await UserCompetitionRecordService.DoCompetitionQuestion(
     form.value
   );
-  getQuestionVO();
-
-  if (res.code === 0) {
-    Message.success("提交成功");
-    changeKeys("submitMsg");
+  if (res.code == 0) {
+    Message.success("题目正确");
+    router.push({
+      path: `/competition/online/${competitionId}`,
+    });
   } else {
-    console.log(res);
+    Message.error("失败");
   }
 };
 

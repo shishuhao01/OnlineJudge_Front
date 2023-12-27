@@ -117,11 +117,20 @@ const doSubmit = () => {
   };
 };
 
+const doQuestion = (question: QuestionQueryRequest) => {
+  if (user.userName == "未登录") {
+    Message.error("您还未登录，请先登录");
+    router.push({
+      path: `/user/login`,
+    });
+  } else {
+    router.push({
+      path: `/question/view/${question.id}`,
+    });
+  }
+};
+
 const columns = [
-  {
-    title: "题号",
-    dataIndex: "id",
-  },
   {
     title: "标题",
     dataIndex: "title",
@@ -144,19 +153,6 @@ const columns = [
     slotName: "optional",
   },
 ];
-
-const doQuestion = (question: QuestionQueryRequest) => {
-  if (user.userName == "未登录") {
-    Message.error("您还未登录，请先登录");
-    router.push({
-      path: `/user/login`,
-    });
-  } else {
-    router.push({
-      path: `/question/view/${question.id}`,
-    });
-  }
-};
 </script>
 
 <style scoped>

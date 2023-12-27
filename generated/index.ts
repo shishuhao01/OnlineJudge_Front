@@ -49,6 +49,8 @@ export type { CompetitionAddRequest } from "./models/CompetitionAddRequest";
 export type { CompetitionQueryRequest } from "./models/CompetitionQueryRequest";
 export type { CompetitionDeleteRequest } from "./models/CompetitionDeleteRequest";
 export type { UserCompetitionRecordAddRequest } from "./models/UserCompetitionRecordAddRequest";
+export type { UserCompetitionRecordDoQuestionRequest } from "./models/UserCompetitionRecordDoQuestionRequest"
+
 
 export type { QuestionEditRequest } from "./models/QuestionEditRequest";
 export type { QuestionDeleteRequest } from "./models/QuestionDeleteRequest";

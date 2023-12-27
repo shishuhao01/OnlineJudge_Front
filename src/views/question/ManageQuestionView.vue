@@ -108,10 +108,10 @@ const updateQuestion = (question: Question) => {
 };
 
 const columns = [
-  {
-    title: "id",
-    dataIndex: "id",
-  },
+  // {
+  //   title: "id",
+  //   dataIndex: "id",
+  // },
   {
     title: "标题",
     dataIndex: "title",

@@ -141,7 +141,6 @@ const addQuestionForm = ref(true);
 let QuestionsData = reactive([]);
 
 const createCompetition = async () => {
-  console.log(form.value);
   const res = await CompetitionControllerService.addCompetitionUsingPost(
     form.value
   );
