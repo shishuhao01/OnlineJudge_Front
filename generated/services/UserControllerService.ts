@@ -16,6 +16,7 @@ import type { UserQueryRequest } from "../models/UserQueryRequest";
 import type { UserRegisterRequest } from "../models/UserRegisterRequest";
 import type { UserUpdateMyRequest } from "../models/UserUpdateMyRequest";
 import type { UserUpdateRequest } from "../models/UserUpdateRequest";
+import type { BaseResponse_string_ } from '../models/BaseResponse_string_';
 
 import type { CancelablePromise } from "../core/CancelablePromise";
 import { OpenAPI } from "../core/OpenAPI";
@@ -303,4 +304,53 @@ export class UserControllerService {
       },
     });
   }
+
+
+
+
+
+
+
+
+
+
+
+
+  public static userLoginByFace(
+    file?: Blob,
+    ): CancelablePromise<BaseResponse_string_ | any> {
+            return __request(OpenAPI, {
+                method: 'POST',
+                url: '/api/user/faceIdentify',
+                formData: {
+                    'file': file,
+                },
+                errors: {
+                    401: `Unauthorized`,
+                    403: `Forbidden`,
+                    404: `Not Found`,
+                },
+            });
+        }
+
+        public static userRegisterByFace(
+          file?: Blob,
+          ): CancelablePromise<BaseResponse_string_ | any> {
+                  return __request(OpenAPI, {
+                      method: 'POST',
+                      url: '/api/user/registerByFace',
+                      formData: {
+                          'file': file,
+                      },
+                      errors: {
+                          401: `Unauthorized`,
+                          403: `Forbidden`,
+                          404: `Not Found`,
+                      },
+                  });
+              }
+
+
+
+
 }

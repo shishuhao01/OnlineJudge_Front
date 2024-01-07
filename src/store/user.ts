@@ -21,6 +21,13 @@ export default {
         });
       }
     },
+    async getLoginUserByFace({ commit, state }, payload) {
+        commit("updateUser", {
+          ...state.loginUser,
+          userRole: ACCESS_ENUM.ADMIN,
+          userName: "张三",
+        });
+    },
     async UserLayout({ commit, state }, payload) {
       commit("updateUser", {
         ...state.loginUser,

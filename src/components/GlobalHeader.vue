@@ -32,6 +32,9 @@
       >
         管理员：{{ userName ?? "未登录" }}
         <a-button type="text" status="danger" @click="layout">注销</a-button>
+        <a-button type="text" status="success" @click="registerByFace"
+          >刷脸注册</a-button
+        >
       </a-col>
       <a-col
         v-else-if="userRole == ACCESS_ENUM.USER"
@@ -39,6 +42,9 @@
       >
         {{ userName ?? "未登录" }}
         <a-button type="text" status="danger" @click="layout">注销</a-button>
+        <a-button type="primary" status="success" @click="registerByFace"
+          >刷脸注册</a-button
+        >
       </a-col>
       <a-col v-else style="color: block; margin-right: 50px">
         未登录
@@ -47,15 +53,19 @@
         >
       </a-col>
     </a-row>
+    <video ref="video" autoplay style="margin-left:2000px,max-width:100px;max-height:100px"></video>
+
   </a-row>
+
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { routes } from "@/router/router";
 import { useRoute, useRouter } from "vue-router";
 import { computed, ref, watch } from "vue";
 import { useStore } from "vuex";
 import { UserControllerService } from "../../generated";
+import { Message, Notification } from "@arco-design/web-vue";
 import checkAccess from "@/access/CheackAccess";
 import ACCESS_ENUM from "@/access/accessEnum";
 
@@ -103,10 +113,61 @@ router.afterEach((to, from, failure) => {
   selectKeys.value = [to.path];
 });
 
-const doMenuClick = (key) => {
+const doMenuClick = (key: string) => {
   router.push({
     path: key,
   });
+};
+
+let stream: MediaStream | null = null;
+const video = ref<HTMLVideoElement | null>(null);
+
+const registerByFace = async () => {
+  if (navigator.mediaDevices.getUserMedia) {
+    try {
+      stream = await navigator.mediaDevices.getUserMedia({ video: true });
+      if (video.value) {
+        video.value.srcObject = stream;
+        video.value.style.display = "block";
+        await new Promise((r) => setTimeout(r, 3000)); // 等待3秒以确保视频流已经开始
+        capture();
+        if (stream) {
+          let tracks = stream.getTracks();
+          tracks.forEach((track) => track.stop());
+        }
+        video.value.style.display = "none";
+      }
+    } catch (err) {
+      console.error("An error occurred: " + err);
+    }
+  }
+};
+
+const capture = async () => {
+  const canvas = document.createElement("canvas");
+  const context = canvas.getContext("2d");
+  if (video.value && context) {
+    canvas.width = video.value.videoWidth;
+    canvas.height = video.value.videoHeight;
+    context.drawImage(video.value, 0, 0);
+    canvas.toBlob(async (blob) => {
+      const file = new File([blob as Blob], "face.png", { type: "image/png" });
+      const res = await UserControllerService.userRegisterByFace(file);
+      if (res.code == 0) {
+        Notification.info({
+          content: "登录成功",
+        });
+        router.push({
+          path: "/",
+        });
+        //登录后不能返回登录页
+      } else {
+         Notification.info({
+          content: res.message,
+        });
+      }
+    });
+  }
 };
 </script>
 
